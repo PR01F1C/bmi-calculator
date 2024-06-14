@@ -3,35 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
+    <title>Multi-Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>BMI Calculator</h1>
-        <form id="bmiForm">
-            <div>
-                <label for="height">Height:</label>
-                <input type="number" id="height" name="height" required>
-                <select id="heightUnit">
-                    <option value="cm">cm</option>
-                    <option value="inches">inches</option>
-                </select>
+        <h1>Multi-Calculator</h1>
+        
+        <!-- BMI Calculator -->
+        <div class="calculator">
+            <h2>BMI Calculator</h2>
+            <form id="bmiForm">
+                <div>
+                    <label for="height">Height:</label>
+                    <input type="number" id="height" name="height" required>
+                    <select id="heightUnit">
+                        <option value="cm">cm</option>
+                        <option value="inches">inches</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="weight">Weight:</label>
+                    <input type="number" id="weight" name="weight" required>
+                    <select id="weightUnit">
+                        <option value="kg">kg</option>
+                        <option value="lbs">lbs</option>
+                    </select>
+                </div>
+                <button type="submit">Calculate BMI</button>
+            </form>
+            <div id="bmiResults">
+                <p>Your BMI: <span id="bmiValue"></span></p>
+                <p>Category: <span id="bmiCategory"></span></p>
             </div>
-            <div>
-                <label for="weight">Weight:</label>
-                <input type="number" id="weight" name="weight" required>
-                <select id="weightUnit">
-                    <option value="kg">kg</option>
-                    <option value="lbs">lbs</option>
-                </select>
-            </div>
-            <button type="submit">Calculate BMI</button>
-        </form>
-        <div id="results">
-            <p>Your BMI: <span id="bmiValue"></span></p>
-            <p>Category: <span id="bmiCategory"></span></p>
         </div>
+        
+        <!-- KG and LBS Converter -->
+        <div class="calculator">
+            <h2>KG and LBS Converter</h2>
+            <form id="kgToLbsForm">
+                <div>
+                    <label for="kg">Kilograms:</label>
+                    <input type="number" id="kg" name="kg">
+                </div>
+                <div>
+                    <label for="lbs">Pounds:</label>
+                    <input type="number" id="lbs" name="lbs">
+                </div>
+                <button type="submit">Convert</button>
+            </form>
+            <div id="kgLbsResults">
+                <p>Converted: <span id="kgLbsValue"></span></p>
+            </div>
+        </div>
+        
+        <!-- Metric and Imperial Converter -->
+        <div class="calculator">
+            <h2>Metric and Imperial Converter</h2>
+            <form id="metricToImperialForm">
+                <div>
+                    <label for="cm">Centimeters:</label>
+                    <input type="number" id="cm" name="cm">
+                </div>
+                <div>
+                    <label for="feet">Feet:</label>
+                    <input type="number" id="feet" name="feet">
+                </div>
+                <div>
+                    <label for="inches">Inches:</label>
+                    <input type="number" id="inches" name="inches">
+                </div>
+                <button type="submit">Convert</button>
+            </form>
+            <div id="metricImperialResults">
+                <p>Converted: <span id="metricImperialValue"></span></p>
+            </div>
+        </div>
+        
     </div>
     <script src="script.js"></script>
 </body>
