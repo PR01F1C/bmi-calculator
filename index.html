@@ -47,6 +47,50 @@
             </div>
         </div>
         
+        <!-- KG and LBS Converter -->
+        <div class="calculator">
+            <h2>KG and LBS Converter</h2>
+            <form id="kgLbsForm">
+                <div>
+                    <label for="weightInput">Enter Weight:</label>
+                    <input type="number" id="weightInput" name="weightInput" required>
+                    <select id="weightUnitSelect">
+                        <option value="kg">KG</option>
+                        <option value="lbs">LBS</option>
+                    </select>
+                </div>
+                <button type="submit">Convert</button>
+            </form>
+            <div id="kgLbsResults">
+                <p>Converted: <span id="kgLbsValue"></span></p>
+            </div>
+        </div>
+        
+        <!-- Metric and Imperial Converter -->
+        <div class="calculator">
+            <h2>Metric and Imperial Converter</h2>
+            <form id="metricImperialForm">
+                <div>
+                    <label for="lengthInput">Enter Length:</label>
+                    <input type="number" id="lengthInput" name="lengthInput" required>
+                    <select id="lengthUnitSelect">
+                        <option value="cm">CM</option>
+                        <option value="feetInches">Feet/Inches</option>
+                    </select>
+                </div>
+                <div id="feetInchesInputs" style="display: none;">
+                    <label for="feet">Feet:</label>
+                    <input type="number" id="feet" name="feet">
+                    <label for="inches">Inches:</label>
+                    <input type="number" id="inches" name="inches">
+                </div>
+                <button type="submit">Convert</button>
+            </form>
+            <div id="metricImperialResults">
+                <p>Converted: <span id="metricImperialValue"></span></p>
+            </div>
+        </div>
+        
     </div>
     <script src="script.js"></script>
 </body>

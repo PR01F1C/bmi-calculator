@@ -66,12 +66,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Metric and Imperial Converter
-    document.getElementById('metricToImperialForm').addEventListener('submit', function(event) {
+    const lengthUnitSelect = document.getElementById('lengthUnitSelect');
+    const feetInchesInputs = document.getElementById('feetInchesInputs');
+
+    lengthUnitSelect.addEventListener('change', function() {
+        if (lengthUnitSelect.value === 'feetInches') {
+            feetInchesInputs.style.display = 'block';
+        } else {
+            feetInchesInputs.style.display = 'none';
+        }
+    });
+
+    document.getElementById('metricImperialForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         // Get input values
         const lengthInput = parseFloat(document.getElementById('lengthInput').value);
-        const lengthUnit = document.getElementById('lengthUnitSelect').value;
+        const lengthUnit = lengthUnitSelect.value;
 
         // Convert based on selected unit
         let convertedValue = '';
