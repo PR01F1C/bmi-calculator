@@ -44,19 +44,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // KG and LBS Converter
-    document.getElementById('kgToLbsForm').addEventListener('submit', function(event) {
+    document.getElementById('kgLbsForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         // Get input values
-        const kg = parseFloat(document.getElementById('kg').value);
-        const lbs = parseFloat(document.getElementById('lbs').value);
+        const weightInput = parseFloat(document.getElementById('weightInput').value);
+        const weightUnit = document.getElementById('weightUnitSelect').value;
 
-        // Determine conversion direction and convert
+        // Convert based on selected unit
         let convertedValue = '';
-        if (kg) {
-            convertedValue = (kg * 2.20462).toFixed(2) + ' lbs';
-        } else if (lbs) {
-            convertedValue = (lbs * 0.453592).toFixed(2) + ' kg';
+        if (weightUnit === 'kg') {
+            convertedValue = (weightInput * 2.20462).toFixed(2) + ' lbs';
+        } else if (weightUnit === 'lbs') {
+            convertedValue = (weightInput * 0.453592).toFixed(2) + ' kg';
         } else {
             convertedValue = 'Please enter a value to convert.';
         }
@@ -70,18 +70,19 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         // Get input values
-        const cm = parseFloat(document.getElementById('cm').value);
-        const feet = parseFloat(document.getElementById('feet').value);
-        const inches = parseFloat(document.getElementById('inches').value);
+        const lengthInput = parseFloat(document.getElementById('lengthInput').value);
+        const lengthUnit = document.getElementById('lengthUnitSelect').value;
 
-        // Determine conversion direction and convert
+        // Convert based on selected unit
         let convertedValue = '';
-        if (cm) {
-            const totalInches = cm * 0.393701;
+        if (lengthUnit === 'cm') {
+            const totalInches = lengthInput * 0.393701;
             const feetValue = Math.floor(totalInches / 12);
             const inchesValue = (totalInches % 12).toFixed(2);
             convertedValue = `${feetValue} ft ${inchesValue} in`;
-        } else if (feet || inches) {
+        } else if (lengthUnit === 'feetInches') {
+            const feet = parseFloat(document.getElementById('feet').value);
+            const inches = parseFloat(document.getElementById('inches').value);
             const totalCm = ((feet * 12) + inches) * 2.54;
             convertedValue = `${totalCm.toFixed(2)} cm`;
         } else {
