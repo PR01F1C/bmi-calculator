@@ -94,6 +94,12 @@ nav ul li a:hover {
     margin-left: 0;
 }
 
+#feetInchesInputs input {
+    width: calc(50% - 10px);
+    display: inline-block;
+    margin-left: 5px;
+}
+
 /* BMI Scale Styles */
 #bmiScale {
     margin: 20px 0;

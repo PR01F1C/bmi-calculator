@@ -94,12 +94,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const metricImperialForm = document.getElementById('metricImperialForm');
     const lengthUnitSelect = document.getElementById('lengthUnitSelect');
     const feetInchesInputs = document.getElementById('feetInchesInputs');
-
+    const lengthInputContainer = document.getElementById('lengthInputContainer');
+    const lengthInput = document.getElementById('lengthInput');
+    const feetInput = document.getElementById('feet');
+    const inchesInput = document.getElementById('inches');
+    
     if (metricImperialForm) {
         lengthUnitSelect.addEventListener('change', function() {
             if (lengthUnitSelect.value === 'feetInches') {
+                lengthInputContainer.style.display = 'none';
                 feetInchesInputs.style.display = 'block';
             } else {
+                lengthInputContainer.style.display = 'block';
                 feetInchesInputs.style.display = 'none';
             }
         });
@@ -107,22 +113,26 @@ document.addEventListener('DOMContentLoaded', function() {
         metricImperialForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get input values
-            const lengthInput = parseFloat(document.getElementById('lengthInput').value);
-            const lengthUnit = lengthUnitSelect.value;
-
-            // Convert based on selected unit
             let convertedValue = '';
-            if (lengthUnit === 'cm') {
-                const totalInches = lengthInput * 0.393701;
-                const feetValue = Math.floor(totalInches / 12);
-                const inchesValue = (totalInches % 12).toFixed(2);
-                convertedValue = `${feetValue} ft ${inchesValue} in`;
-            } else if (lengthUnit === 'feetInches') {
-                const feet = parseFloat(document.getElementById('feet').value);
-                const inches = parseFloat(document.getElementById('inches').value);
-                const totalCm = ((feet * 12) + inches) * 2.54;
-                convertedValue = `${totalCm.toFixed(2)} cm`;
+            if (lengthUnitSelect.value === 'cm') {
+                const lengthCm = parseFloat(lengthInput.value);
+                if (isNaN(lengthCm)) {
+                    convertedValue = 'Please enter a valid number';
+                } else {
+                    const totalInches = lengthCm * 0.393701;
+                    const feetValue = Math.floor(totalInches / 12);
+                    const inchesValue = (totalInches % 12).toFixed(2);
+                    convertedValue = `${feetValue} ft ${inchesValue} in`;
+                }
+            } else if (lengthUnitSelect.value === 'feetInches') {
+                const feet = parseFloat(feetInput.value);
+                const inches = parseFloat(inchesInput.value);
+                if (isNaN(feet) || isNaN(inches)) {
+                    convertedValue = 'Please enter valid numbers for feet and inches';
+                } else {
+                    const totalCm = ((feet * 12) + inches) * 2.54;
+                    convertedValue = `${totalCm.toFixed(2)} cm`;
+                }
             } else {
                 convertedValue = 'Please enter a value to convert.';
             }
