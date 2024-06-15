@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update BMI marker position
             const bmiMarker = document.getElementById('bmiMarker');
             const scaleWidth = document.querySelector('.scale').offsetWidth;
-            const markerPosition = Math.min(bmi / 60 * scaleWidth, scaleWidth - 5); // Keep marker within scale bounds
+            const markerPosition = Math.min(bmi / 50 * scaleWidth, scaleWidth - 5); // Keep marker within scale bounds
             bmiMarker.style.left = `${markerPosition}px`;
         });
     }
