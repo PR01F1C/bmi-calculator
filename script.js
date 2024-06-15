@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
 
             // Get input values
+            const gender = document.getElementById('gender').value;
             const height = parseFloat(document.getElementById('height').value);
             const weight = parseFloat(document.getElementById('weight').value);
             const heightUnit = document.getElementById('heightUnit').value;
@@ -43,6 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Display results
             document.getElementById('bmiValue').textContent = bmi.toFixed(2);
             document.getElementById('bmiCategory').textContent = category;
+
+            // Update BMI marker position
+            const bmiMarker = document.getElementById('bmiMarker');
+            const scaleWidth = document.querySelector('.scale').offsetWidth;
+            const markerPosition = Math.min(bmi / 60 * scaleWidth, scaleWidth - 5); // Keep marker within scale bounds
+            bmiMarker.style.left = `${markerPosition}px`;
         });
     }
 
