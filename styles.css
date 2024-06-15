@@ -48,6 +48,7 @@ label {
 input, select {
     padding: 5px;
     margin-left: 10px;
+    width: calc(100% - 140px);
 }
 
 button {
@@ -89,15 +90,14 @@ nav ul li a:hover {
 }
 
 /* Additional Styles for Metric and Imperial Converter */
+#feetInchesInputs {
+    display: flex;
+    flex-direction: column;
+}
+
 #feetInchesInputs label {
     width: auto;
     margin-left: 0;
-}
-
-#feetInchesInputs input {
-    width: calc(50% - 10px);
-    display: inline-block;
-    margin-left: 5px;
 }
 
 /* BMI Scale Styles */
@@ -159,3 +159,4 @@ nav ul li a:hover {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
