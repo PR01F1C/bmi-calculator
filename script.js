@@ -5,34 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
         bmiForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get input values
             const height = parseFloat(document.getElementById('height').value);
             const weight = parseFloat(document.getElementById('weight').value);
             const heightUnit = document.getElementById('heightUnit').value;
             const weightUnit = document.getElementById('weightUnit').value;
 
-            // Convert units if necessary
-            let heightInMeters = height;
-            let weightInKg = weight;
+            let heightInMeters = heightUnit === 'inches' ? height * 0.0254 : height / 100;
+            let weightInKg = weightUnit === 'lbs' ? weight * 0.453592 : weight;
 
-            if (heightUnit === 'inches') {
-                heightInMeters = height * 0.0254;
-            } else {
-                heightInMeters = height / 100;
-            }
-
-            if (weightUnit === 'lbs') {
-                weightInKg = weight * 0.453592;
-            }
-
-            // Calculate BMI
             const bmi = weightInKg / (heightInMeters * heightInMeters);
-
-            // Determine BMI category for male and female
             const categoryMale = getBMICategory(bmi, 'male');
             const categoryFemale = getBMICategory(bmi, 'female');
 
-            // Display results
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = `
                 <table>
@@ -54,10 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </table>
             `;
 
-            // Update BMI marker position
             const bmiMarker = document.getElementById('bmiMarker');
             const scaleWidth = document.querySelector('.scale').offsetWidth;
-            const markerPosition = Math.min((bmi - 10) / 35 * scaleWidth, scaleWidth - 5); // Adjust marker position based on new scale
+            const markerPosition = Math.min((bmi - 10) / 35 * scaleWidth, scaleWidth - 5);
             bmiMarker.style.left = `${markerPosition}px`;
         });
     }
@@ -68,24 +51,14 @@ document.addEventListener('DOMContentLoaded', function() {
         kgLbsForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get input values
             const weightInput = parseFloat(document.getElementById('weightInput').value);
             const weightUnit = document.getElementById('weightUnitSelect').value;
 
-            // Convert based on selected unit
-            let convertedValue = '';
-            if (weightUnit === 'kg') {
-                convertedValue = (weightInput * 2.20462).toFixed(2) + ' lbs';
-            } else if (weightUnit === 'lbs') {
-                convertedValue = (weightInput * 0.453592).toFixed(2) + ' kg';
-            } else {
-                convertedValue = 'Please enter a value to convert.';
-            }
+            const convertedValue = weightUnit === 'kg' 
+                ? `${(weightInput * 2.20462).toFixed(2)} lbs` 
+                : `${(weightInput * 0.453592).toFixed(2)} kg`;
 
-            // Display results
             document.getElementById('kgLbsValue').textContent = convertedValue;
-
-            // Send conversion data to the backend
             sendConversionData('Weight', `${weightInput} ${weightUnit}`, convertedValue);
         });
     }
@@ -98,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lengthInput = document.getElementById('lengthInput');
     const feetInput = document.getElementById('feet');
     const inchesInput = document.getElementById('inches');
-    
+
     if (metricImperialForm) {
         lengthUnitSelect.addEventListener('change', function() {
             if (lengthUnitSelect.value === 'feetInches') {
@@ -116,14 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let convertedValue = '';
             if (lengthUnitSelect.value === 'cm') {
                 const lengthCm = parseFloat(lengthInput.value);
-                if (isNaN(lengthCm)) {
-                    convertedValue = 'Please enter a valid number';
-                } else {
-                    const totalInches = lengthCm * 0.393701;
-                    const feetValue = Math.floor(totalInches / 12);
-                    const inchesValue = (totalInches % 12).toFixed(2);
-                    convertedValue = `${feetValue} ft ${inchesValue} in`;
-                }
+                convertedValue = isNaN(lengthCm) ? 'Please enter a valid number' : `${(lengthCm * 0.393701).toFixed(2)} ft`;
             } else if (lengthUnitSelect.value === 'feetInches') {
                 const feet = parseFloat(feetInput.value);
                 const inches = parseFloat(inchesInput.value);
@@ -137,32 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 convertedValue = 'Please enter a value to convert.';
             }
 
-            // Display results
             document.getElementById('metricImperialValue').textContent = convertedValue;
-
-            // Send conversion data to the backend
-            sendConversionData('Length', `${lengthInput} ${lengthUnit}`, convertedValue);
+            sendConversionData('Length', lengthUnitSelect.value === 'cm' ? `${lengthInput.value} cm` : `${feetInput.value} ft ${inchesInput.value} in`, convertedValue);
         });
     }
 
     // Function to get BMI category
-    function getBMICategory(bmi, gender) {
-        let category;
-        if (bmi < 18.5) {
-            category = 'Underweight';
-        } else if (bmi >= 18.5 && bmi <= 24.9) {
-            category = 'Healthy weight';
-        } else if (bmi >= 25 && bmi <= 29.9) {
-            category = 'Overweight but not obese';
-        } else if (bmi >= 30 && bmi <= 34.9) {
-            category = 'Obese class I';
-        } else if (bmi >= 35 && bmi <= 39.9) {
-            category = 'Obese class II';
-        } else {
-            category = 'Obese class III';
-        }
-
-        return category;
+    function getBMICategory(bmi) {
+        if (bmi < 18.5) return 'Underweight';
+        if (bmi < 25) return 'Healthy weight';
+        if (bmi < 30) return 'Overweight but not obese';
+        if (bmi < 35) return 'Obese class I';
+        if (bmi < 40) return 'Obese class II';
+        return 'Obese class III';
     }
 
     // Function to send conversion data to the backend
