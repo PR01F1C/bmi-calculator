@@ -1,11 +1,13 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Changed to flex-start for top alignment */
     height: 100vh;
     margin: 0;
+    overflow-y: scroll; /* Ensure scrolling */
 }
 
 .container {
@@ -17,6 +19,13 @@ body {
     max-width: 500px;
 }
 
+/* Left-aligned container */
+.container.left-aligned {
+    text-align: left;
+    max-width: 800px; /* Adjust width for better readability */
+}
+
+/* Header Styles */
 h1 {
     margin-bottom: 20px;
 }
@@ -26,6 +35,7 @@ h2 {
     margin-bottom: 15px;
 }
 
+/* Form Styles */
 form div {
     margin-bottom: 15px;
 }
@@ -53,6 +63,33 @@ button:hover {
     background-color: #218838;
 }
 
+/* Results Styles */
 #results, #kgLbsResults, #metricImperialResults {
     margin-top: 20px;
+}
+
+/* Navigation Styles */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Additional Styles for Metric and Imperial Converter */
+#feetInchesInputs label {
+    width: auto;
+    margin-left: 0;
 }
