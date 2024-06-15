@@ -31,14 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Determine BMI category
             let category = '';
-            if (bmi < 18.5) {
+            if (bmi < 16) {
+                category = 'Severely Underweight';
+            } else if (bmi >= 16 && bmi < 18.5) {
                 category = 'Underweight';
-            } else if (bmi >= 18.5 && bmi < 24.9) {
+            } else if (bmi >= 18.5 && bmi < 25) {
                 category = 'Normal weight';
-            } else if (bmi >= 25 && bmi < 29.9) {
+            } else if (bmi >= 25 && bmi < 30) {
                 category = 'Overweight';
-            } else {
+            } else if (bmi >= 30 && bmi < 35) {
                 category = 'Obesity';
+            } else {
+                category = 'Morbidly Obese';
             }
 
             // Display results
@@ -48,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update BMI marker position
             const bmiMarker = document.getElementById('bmiMarker');
             const scaleWidth = document.querySelector('.scale').offsetWidth;
-            const markerPosition = Math.min(bmi / 50 * scaleWidth, scaleWidth - 5); // Keep marker within scale bounds
+            const markerPosition = Math.min((bmi - 10) / 30 * scaleWidth, scaleWidth - 5); // Adjust marker position based on new scale
             bmiMarker.style.left = `${markerPosition}px`;
         });
     }
