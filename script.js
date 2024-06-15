@@ -8,34 +8,56 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get input values
             const height = parseFloat(document.getElementById('height').value);
             const weight = parseFloat(document.getElementById('weight').value);
+            const heightUnit = document.getElementById('heightUnit').value;
+            const weightUnit = document.getElementById('weightUnit').value;
 
-            // Calculate BMI
-            const bmi = weight / (height * height);
+            // Convert units if necessary
+            let heightInMeters = height;
+            let weightInKg = weight;
 
-            // Determine BMI category
-            let category = '';
-            if (bmi < 16) {
-                category = 'Severely Underweight';
-            } else if (bmi >= 16 && bmi < 18.5) {
-                category = 'Underweight';
-            } else if (bmi >= 18.5 && bmi < 25) {
-                category = 'Normal weight';
-            } else if (bmi >= 25 && bmi < 30) {
-                category = 'Overweight';
-            } else if (bmi >= 30 && bmi < 35) {
-                category = 'Obesity';
+            if (heightUnit === 'inches') {
+                heightInMeters = height * 0.0254;
             } else {
-                category = 'Morbidly Obese';
+                heightInMeters = height / 100;
             }
 
+            if (weightUnit === 'lbs') {
+                weightInKg = weight * 0.453592;
+            }
+
+            // Calculate BMI
+            const bmi = weightInKg / (heightInMeters * heightInMeters);
+
+            // Determine BMI category for male and female
+            const categoryMale = getBMICategory(bmi, 'male');
+            const categoryFemale = getBMICategory(bmi, 'female');
+
             // Display results
-            document.getElementById('bmiValue').textContent = bmi.toFixed(2);
-            document.getElementById('bmiCategory').textContent = category;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                    <tr>
+                        <td>BMI Score</td>
+                        <td>${bmi.toFixed(2)}</td>
+                        <td>${bmi.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>BMI Category</td>
+                        <td>${categoryMale}</td>
+                        <td>${categoryFemale}</td>
+                    </tr>
+                </table>
+            `;
 
             // Update BMI marker position
             const bmiMarker = document.getElementById('bmiMarker');
             const scaleWidth = document.querySelector('.scale').offsetWidth;
-            const markerPosition = Math.min((bmi - 10) / 30 * scaleWidth, scaleWidth - 5); // Adjust marker position based on new scale
+            const markerPosition = Math.min((bmi - 10) / 35 * scaleWidth, scaleWidth - 5); // Adjust marker position based on new scale
             bmiMarker.style.left = `${markerPosition}px`;
         });
     }
@@ -106,41 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('metricImperialValue').textContent = convertedValue;
         });
     }
-    
-    // Additional code for updated BMI Calculator
-    function calculateBMI() {
-        const weight = document.getElementById('weight').value;
-        const height = document.getElementById('height').value;
-        if (weight && height) {
-            const bmi = (weight / (height * height)).toFixed(2);
-            const categoryMale = getBMICategory(bmi, 'male');
-            const categoryFemale = getBMICategory(bmi, 'female');
-            
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Male</th>
-                        <th>Female</th>
-                    </tr>
-                    <tr>
-                        <td>BMI Score</td>
-                        <td>${bmi}</td>
-                        <td>${bmi}</td>
-                    </tr>
-                    <tr>
-                        <td>BMI Category</td>
-                        <td>${categoryMale}</td>
-                        <td>${categoryFemale}</td>
-                    </tr>
-                </table>
-            `;
-        } else {
-            alert('Please enter both weight and height');
-        }
-    }
 
+    // Function to get BMI category
     function getBMICategory(bmi, gender) {
         let category;
         if (bmi < 18.5) {
