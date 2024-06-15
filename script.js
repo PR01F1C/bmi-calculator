@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Display results
             document.getElementById('kgLbsValue').textContent = convertedValue;
+
+            // Send conversion data to the backend
+            sendConversionData('Weight', `${weightInput} ${weightUnit}`, convertedValue);
         });
     }
 
@@ -126,6 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Display results
             document.getElementById('metricImperialValue').textContent = convertedValue;
+
+            // Send conversion data to the backend
+            sendConversionData('Length', `${lengthInput} ${lengthUnit}`, convertedValue);
         });
     }
 
@@ -147,5 +153,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         return category;
+    }
+
+    // Function to send conversion data to the backend
+    async function sendConversionData(type, input, output) {
+        const response = await fetch('http://localhost:5000/api/conversions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ type, input, output }),
+        });
+        const data = await response.json();
+        console.log(data);
     }
 });
