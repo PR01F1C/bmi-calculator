@@ -122,3 +122,20 @@ nav ul li a:hover {
     justify-content: space-between;
     margin-top: 5px;
 }
+
+/* Additional Styles for BMI Results Table */
+.results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.results th, .results td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.results th {
+    background-color: #f4f4f4;
+}

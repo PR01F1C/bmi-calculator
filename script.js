@@ -6,28 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
 
             // Get input values
-            const gender = document.getElementById('gender').value;
             const height = parseFloat(document.getElementById('height').value);
             const weight = parseFloat(document.getElementById('weight').value);
-            const heightUnit = document.getElementById('heightUnit').value;
-            const weightUnit = document.getElementById('weightUnit').value;
-
-            // Convert units if necessary
-            let heightInMeters = height;
-            let weightInKg = weight;
-
-            if (heightUnit === 'inches') {
-                heightInMeters = height * 0.0254;
-            } else {
-                heightInMeters = height / 100;
-            }
-
-            if (weightUnit === 'lbs') {
-                weightInKg = weight * 0.453592;
-            }
 
             // Calculate BMI
-            const bmi = weightInKg / (heightInMeters * heightInMeters);
+            const bmi = weight / (height * height);
 
             // Determine BMI category
             let category = '';
@@ -122,5 +105,58 @@ document.addEventListener('DOMContentLoaded', function() {
             // Display results
             document.getElementById('metricImperialValue').textContent = convertedValue;
         });
+    }
+    
+    // Additional code for updated BMI Calculator
+    function calculateBMI() {
+        const weight = document.getElementById('weight').value;
+        const height = document.getElementById('height').value;
+        if (weight && height) {
+            const bmi = (weight / (height * height)).toFixed(2);
+            const categoryMale = getBMICategory(bmi, 'male');
+            const categoryFemale = getBMICategory(bmi, 'female');
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                    <tr>
+                        <td>BMI Score</td>
+                        <td>${bmi}</td>
+                        <td>${bmi}</td>
+                    </tr>
+                    <tr>
+                        <td>BMI Category</td>
+                        <td>${categoryMale}</td>
+                        <td>${categoryFemale}</td>
+                    </tr>
+                </table>
+            `;
+        } else {
+            alert('Please enter both weight and height');
+        }
+    }
+
+    function getBMICategory(bmi, gender) {
+        let category;
+        if (bmi < 18.5) {
+            category = 'Underweight';
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            category = 'Healthy weight';
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            category = 'Overweight but not obese';
+        } else if (bmi >= 30 && bmi <= 34.9) {
+            category = 'Obese class I';
+        } else if (bmi >= 35 && bmi <= 39.9) {
+            category = 'Obese class II';
+        } else {
+            category = 'Obese class III';
+        }
+
+        return category;
     }
 });
